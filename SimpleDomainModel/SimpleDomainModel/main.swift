@@ -189,12 +189,28 @@ open class Family {
   fileprivate var members : [Person] = []
   
   public init(spouse1: Person, spouse2: Person) {
+    if spouse1._spouse == nil && spouse2._spouse == nil{
+        spouse1._spouse = spouse2;
+        spouse2._spouse = spouse1;
+        self.members.append(spouse1);
+        self.members.append(spouse2);
+    }
   }
   
   open func haveChild(_ child: Person) -> Bool {
+    if members[0].age > 21 || members[1].age > 21{
+        members.append(child);
+        return true
+    }
+    return false
   }
   
   open func householdIncome() -> Int {
+    var total = 0;
+    for people in members{
+        total += (people.job?.calculateIncome(2000))!;
+    }
+    return total;
   }
 }
 
