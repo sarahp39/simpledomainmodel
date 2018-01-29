@@ -86,6 +86,7 @@ public struct Money {
     let total = self.amount + sameCurrency.amount;
     return Money(amount: total, currency: currency)
   }
+    
   public func subtract(_ from: Money) -> Money {
     let sameCurrency = self.convert(from.currency)
     let total = self.amount - sameCurrency.amount;
@@ -106,12 +107,28 @@ open class Job {
   }
   
   public init(title : String, type : JobType) {
+    self.title = title;
+    self.type = type;
   }
   
   open func calculateIncome(_ hours: Int) -> Int {
+    var total = 0;
+    switch self.type{
+        case .Hourly(let pay):
+            total = Int(pay * Double(hours))
+        case .Salary(let annualpay):
+            total = annualpay
+    }
+    return total;
   }
   
   open func raise(_ amt : Double) {
+    switch self.type{
+        case .Hourly(let pay):
+            self.type = .Hourly(pay + amt);
+        case .Salary(let annualpay):
+            self.type = .Salary(annualpay + (Int(amt)));
+    }
   }
 }
 
