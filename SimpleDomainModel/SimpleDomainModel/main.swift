@@ -82,9 +82,14 @@ public struct Money {
   }
   
   public func add(_ to: Money) -> Money {
-    
+    let sameCurrency = self.convert(to.currency)
+    let total = self.amount + sameCurrency.amount;
+    return Money(amount: total, currency: currency)
   }
   public func subtract(_ from: Money) -> Money {
+    let sameCurrency = self.convert(from.currency)
+    let total = self.amount - sameCurrency.amount;
+    return Money(amount: total, currency: currency)
   }
 }
 
